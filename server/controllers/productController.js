@@ -1,4 +1,6 @@
 import Product from '../models/Product.js';
+import User from '../models/User.js';
+import Category from '../models/Category.js';
 
 
 export async function createProduct (req, res) {
@@ -29,3 +31,19 @@ export async function createProduct (req, res) {
     }
 
 };
+
+export async function getAllProducts (req, res) {
+    try {
+        const products = await Product.findAll({
+            include: [
+                { model: User, attributes: ['id', 'first_name', 'last_name']},
+                { model: Category, attributes: ['id', 'name', 'slug' ]}
+            ]
+        });
+        return res.status(200).json(products);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: error.message });
+    }
+}
