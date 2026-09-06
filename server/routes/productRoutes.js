@@ -2,6 +2,8 @@ import express from "express";
 import { createProduct, getAllProducts, updateProductStatus } from "../controllers/productController.js";
 import { authenticateToken } from "../middleware/authMiddleware.js";
 import { isAdmin } from "../middleware/isAdmin.js";
+import { createProduct, getAllProducts } from "../controllers/productController.js";
+import { authenticateToken } from "../middleware/authMiddleware.js";
 
 
 
