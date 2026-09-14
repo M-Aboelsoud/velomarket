@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VeloMarket Upload Test</title>
+    <style>
+        body { background-color: #1a1a1a; color: #ffffff; font-family: sans-serif; padding: 2rem; }
+        .container { max-width: 500px; margin: auto; background: #2d2d2d; padding: 20px; border-radius: 8px; border-top: 4px solid #ff0000; }
+        input, textarea, button { width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; background: #3d3d3d; color: white; border: 1px solid #555; }
+        button { background-color: #ff0000; color: white; border: none; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
+        button:hover { background-color: #cc0000; }
+        pre { background: #111; padding: 10px; white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Digital Asset</h2>
+        <form id="uploadForm">
+            <input type="text" id="token" placeholder="JWT TOKEN HERE" required>
+            <input type="text" id="title" placeholder="Product Title" required>
+            <textarea id="description" placeholder="Product Description" required></textarea>
+            <input type="text" id="tags" placeholder="Tags (e.g., software, UI)">
+            <input type="number" id="categoryId" placeholder="Category ID">
+            <input type="file" id="video" accept="video/*" required>
+            <button type="submit">Upload to VeloMarket</button>
+        </form>
+        <pre id="output">Server response will appear here...</pre>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('title').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('tags', document.getElementById('tags').value);
+            formData.append('category_id', document.getElementById('categoryId').value);
+            formData.append('video', document.getElementById('video').files[0]); // Multer expects this key
+
+            try {
+                const response = await fetch('http://localhost:3000/api/products', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${document.getElementById('token').value}` },
+                    body: formData
+                });
+                
+                const result = await response.json();
+                document.getElementById('output').innerText = JSON.stringify(result, null, 2);
+            } catch (err) {
+                document.getElementById('output').innerText = "Error: " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,7 @@
 import express from "express";
+import cors from "cors";
+import path from 'path';
+import { fileURLToPath } from 'url';
 import sequelize from "./config/database.js";
 import User from "./models/User.js";
 import Category from "./models/Category.js";
@@ -6,8 +9,13 @@ import Product from "./models/Product.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(cors());
 const port = 3000;
 
 
