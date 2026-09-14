@@ -49,6 +49,7 @@ export async function createProduct (req, res) {
 export async function getAllProducts (req, res) {
     try {
         const products = await Product.findAll({
+            where: {status: 'approved'},
             include: [
                 { model: User, attributes: ['id', 'first_name', 'last_name']},
                 { model: Category, attributes: ['id', 'name', 'slug' ]}
@@ -74,15 +75,14 @@ export async function updateProductStatus (req, res) {
             return res.status(404).json({ error: "Product not found"});
         }
 
-        // Update product status if provided
-        if (status) {
-            product.status = status;
-        }
+        // Update product status
+        product.status = status;
         await product.save();
-        return res.status(200).json({ message: "Product updated successfully", product});
+        return res.status(200).json({ message: "Product status updated successfully", product});
 
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: error.message });
     }
 };
+}
