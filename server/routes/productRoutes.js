@@ -20,7 +20,6 @@ router.patch("/:id/status", authenticateToken, isAdmin, updateProductStatus);
 router.post("/", authenticateToken, mediaUpload, createProduct);
 router.get("/", getAllProducts);
 
-// Admin route to update product status
-router.patch("/:id/status", authenticateToken, isAdmin, updateProductStatus);
+
 
 export default router;
