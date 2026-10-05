@@ -20,11 +20,6 @@ router.patch("/:id/status", authenticateToken, isAdmin, updateProductStatus);
 router.post("/", authenticateToken, mediaUpload, createProduct);
 router.get("/", getAllProducts);
 
-<<<<<<< HEAD
-// Admin route to update product status
-router.patch("/:id/status", authenticateToken, isAdmin, updateProductStatus);
+
 
 export default router;
-=======
-export default router;
->>>>>>> 971f551 (feat: implement category controllers and public REST routes)
